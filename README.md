@@ -7,6 +7,8 @@
 One worktree per branch, without the "already checked out" dance.
 One command to end a ticket: fetch, rebase on the base branch, and refuse to ship docs or mocks you never meant to commit.
 
+<img src="assets/demo.svg" width="100%" alt="Animated demo: git checkout fails because feature/login is checked out in another worktree; wt go feature/login opens that worktree; wt ls lists worktrees; wt finish refuses a staged docs/notes.md, then rebases onto origin/develop.">
+
 `wt` is a single Bash script. It needs only `bash` (3.2 or later) and `git` (2.36 or later).
 
 ## Install
@@ -36,7 +38,10 @@ eval "$(wt shell-init)"
 
 `wt go` is idempotent. If the branch is already checked out somewhere, including in your main checkout, you land there instead of getting an error. New worktrees go in a directory that mirrors the branch name, so `feature/login` lives in `../app.worktrees/feature/login`.
 
-### Example
+### Full example
+
+<details>
+<summary>A complete session as text</summary>
 
 ```console
 ~/code/app $ wt go feature/search
@@ -62,6 +67,8 @@ wt: feature/search is up to date with origin/develop
 wt: removed ~/code/app.worktrees/feature/search
 Deleted branch feature/search (was 9550f95).
 ```
+
+</details>
 
 ## What `wt finish` does
 
@@ -115,6 +122,8 @@ Exclude globs are matched from the repository root, from any subdirectory. They 
 ./test/run.sh finish     # tests whose name matches "finish"
 shellcheck wt test/run.sh install.sh
 ```
+
+The demo at the top is an animated SVG built from `assets/demo/build.mjs`. Regenerate it with `node assets/demo/build.mjs`. `assets/demo/scenario.sh` replays the same session against the real `wt`, so you can check that the text still matches.
 
 Each test builds a throwaway bare remote and clone in a temporary directory. CI runs the suite on Ubuntu and macOS, the latter with the system Bash 3.2.
 

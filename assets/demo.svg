@@ -1,0 +1,145 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 415" width="900" height="415" xml:space="preserve" role="img" aria-label="wt demo: git checkout fails because the branch is checked out in another worktree; wt go opens that worktree; wt ls lists worktrees; wt finish refuses a staged docs file, then rebases onto origin/develop.">
+<style>
+@keyframes k0{0.000%{opacity:0}0.000%{opacity:0}1.233%{opacity:1}21.109%{opacity:1}22.342%{opacity:0}100.000%{opacity:0}}
+.k0{animation:k0 24.34s linear infinite}
+@keyframes k1{0.000%{transform:translateX(0)}3.287%{transform:translateX(0);animation-timing-function:steps(26,end)}8.414%{transform:translateX(226.2px)}100.000%{transform:translateX(226.2px)}}
+.k1{animation:k1 24.34s linear infinite}
+@keyframes k2{0.000%{opacity:1}9.318%{opacity:1}9.359%{opacity:0}100.000%{opacity:0}}
+.k2{animation:k2 24.34s linear infinite}
+@keyframes k3{0.000%{opacity:0}1.438%{opacity:0}1.931%{opacity:1}100.000%{opacity:1}}
+.k3{animation:k3 24.34s linear infinite}
+@keyframes k4{0.000%{transform:scaleX(0)}10.551%{transform:scaleX(0);animation-timing-function:cubic-bezier(.2,.8,.2,1)}12.399%{transform:scaleX(1)}100.000%{transform:scaleX(1)}}
+.k4{animation:k4 24.34s linear infinite}
+@keyframes k5{0.000%{transform:scale(0)}10.468%{transform:scale(0);animation-timing-function:cubic-bezier(.3,1.6,.6,1)}11.619%{transform:scale(1)}100.000%{transform:scale(1)}}
+.k5{animation:k5 24.34s linear infinite}
+@keyframes k6{0.000%{opacity:0}10.140%{opacity:0}10.633%{opacity:1}100.000%{opacity:1}}
+.k6{animation:k6 24.34s linear infinite}
+@keyframes k7{0.000%{opacity:1}12.892%{opacity:1}100.000%{opacity:1}}
+.k7{animation:k7 24.34s linear infinite}
+@keyframes k8{0.000%{opacity:0}12.892%{opacity:0}13.385%{opacity:1}100.000%{opacity:1}}
+.k8{animation:k8 24.34s linear infinite}
+@keyframes k9{0.000%{opacity:0}22.342%{opacity:0}23.574%{opacity:1}44.864%{opacity:1}46.097%{opacity:0}100.000%{opacity:0}}
+.k9{animation:k9 24.34s linear infinite}
+@keyframes k10{0.000%{transform:translateX(0)}25.629%{transform:translateX(0);animation-timing-function:steps(19,end)}29.376%{transform:translateX(165.3px)}100.000%{transform:translateX(165.3px)}}
+.k10{animation:k10 24.34s linear infinite}
+@keyframes k11{0.000%{opacity:1}30.279%{opacity:1}30.320%{opacity:0}100.000%{opacity:0}}
+.k11{animation:k11 24.34s linear infinite}
+@keyframes k12{0.000%{opacity:0}23.780%{opacity:0}24.273%{opacity:1}100.000%{opacity:1}}
+.k12{animation:k12 24.34s linear infinite}
+@keyframes k13{0.000%{transform:scaleX(0)}31.923%{transform:scaleX(0);animation-timing-function:cubic-bezier(.2,.8,.2,1)}33.772%{transform:scaleX(1)}100.000%{transform:scaleX(1)}}
+.k13{animation:k13 24.34s linear infinite}
+@keyframes k14{0.000%{transform:translateX(0)}33.361%{transform:translateX(0);animation-timing-function:steps(5,end)}34.347%{transform:translateX(43.5px)}100.000%{transform:translateX(43.5px)}}
+.k14{animation:k14 24.34s linear infinite}
+@keyframes k15{0.000%{opacity:1}35.251%{opacity:1}35.292%{opacity:0}100.000%{opacity:0}}
+.k15{animation:k15 24.34s linear infinite}
+@keyframes k16{0.000%{transform:scale(0)}31.841%{transform:scale(0);animation-timing-function:cubic-bezier(.3,1.6,.6,1)}32.991%{transform:scale(1)}100.000%{transform:scale(1)}}
+.k16{animation:k16 24.34s linear infinite}
+@keyframes k17{0.000%{opacity:0}31.512%{opacity:0}32.005%{opacity:1}100.000%{opacity:1}}
+.k17{animation:k17 24.34s linear infinite}
+@keyframes k18{0.000%{opacity:0}36.072%{opacity:0}36.565%{opacity:1}100.000%{opacity:1}}
+.k18{animation:k18 24.34s linear infinite}
+@keyframes k19{0.000%{transform:scaleX(0)}36.771%{transform:scaleX(0);animation-timing-function:cubic-bezier(.2,.8,.2,1)}38.620%{transform:scaleX(1)}100.000%{transform:scaleX(1)}}
+.k19{animation:k19 24.34s linear infinite}
+@keyframes k20{0.000%{opacity:0}36.360%{opacity:0}36.853%{opacity:1}100.000%{opacity:1}}
+.k20{animation:k20 24.34s linear infinite}
+@keyframes k21{0.000%{opacity:1}36.647%{opacity:1}100.000%{opacity:1}}
+.k21{animation:k21 24.34s linear infinite}
+@keyframes k22{0.000%{opacity:0}36.647%{opacity:0}37.141%{opacity:1}100.000%{opacity:1}}
+.k22{animation:k22 24.34s linear infinite}
+@keyframes k23{0.000%{opacity:0}46.097%{opacity:0}47.329%{opacity:1}98.776%{opacity:1}100.000%{opacity:0}100.000%{opacity:0}}
+.k23{animation:k23 24.34s linear infinite}
+@keyframes k24{0.000%{transform:translateX(0)}49.384%{transform:translateX(0);animation-timing-function:steps(10,end)}51.356%{transform:translateX(87.0px)}100.000%{transform:translateX(87.0px)}}
+.k24{animation:k24 24.34s linear infinite}
+@keyframes k25{0.000%{opacity:1}52.260%{opacity:1}52.301%{opacity:0}100.000%{opacity:0}}
+.k25{animation:k25 24.34s linear infinite}
+@keyframes k26{0.000%{opacity:0}47.535%{opacity:0}48.028%{opacity:1}100.000%{opacity:1}}
+.k26{animation:k26 24.34s linear infinite}
+@keyframes k27{0.000%{transform:translateX(0)}54.930%{transform:translateX(0);animation-timing-function:steps(9,end)}56.705%{transform:translateX(78.3px)}100.000%{transform:translateX(78.3px)}}
+.k27{animation:k27 24.34s linear infinite}
+@keyframes k28{0.000%{opacity:1}57.609%{opacity:1}57.650%{opacity:0}100.000%{opacity:0}}
+.k28{animation:k28 24.34s linear infinite}
+@keyframes k29{0.000%{opacity:0}53.081%{opacity:0}53.574%{opacity:1}100.000%{opacity:1}}
+.k29{animation:k29 24.34s linear infinite}
+@keyframes k30{0.000%{transform:scale(0)}58.759%{transform:scale(0);animation-timing-function:cubic-bezier(.3,1.6,.6,1)}59.910%{transform:scale(1)}100.000%{transform:scale(1)}}
+.k30{animation:k30 24.34s linear infinite}
+@keyframes k31{0.000%{opacity:0}58.431%{opacity:0}58.924%{opacity:1}100.000%{opacity:1}}
+.k31{animation:k31 24.34s linear infinite}
+@keyframes k32{0.000%{transform:scaleX(0)}59.129%{transform:scaleX(0);animation-timing-function:cubic-bezier(.2,.8,.2,1)}60.978%{transform:scaleX(1)}100.000%{transform:scaleX(1)}}
+.k32{animation:k32 24.34s linear infinite}
+@keyframes k33{0.000%{opacity:0}58.718%{opacity:0}59.211%{opacity:1}100.000%{opacity:1}}
+.k33{animation:k33 24.34s linear infinite}
+@keyframes k34{0.000%{opacity:0}59.006%{opacity:0}59.499%{opacity:1}100.000%{opacity:1}}
+.k34{animation:k34 24.34s linear infinite}
+@keyframes k35{0.000%{transform:translateX(0)}64.840%{transform:translateX(0);animation-timing-function:steps(25,end)}69.770%{transform:translateX(217.5px)}100.000%{transform:translateX(217.5px)}}
+.k35{animation:k35 24.34s linear infinite}
+@keyframes k36{0.000%{opacity:1}70.674%{opacity:1}70.715%{opacity:0}100.000%{opacity:0}}
+.k36{animation:k36 24.34s linear infinite}
+@keyframes k37{0.000%{opacity:0}62.991%{opacity:0}63.484%{opacity:1}100.000%{opacity:1}}
+.k37{animation:k37 24.34s linear infinite}
+@keyframes k38{0.000%{transform:translateX(0)}73.344%{transform:translateX(0);animation-timing-function:steps(26,end)}78.472%{transform:translateX(226.2px)}100.000%{transform:translateX(226.2px)}}
+.k38{animation:k38 24.34s linear infinite}
+@keyframes k39{0.000%{opacity:1}79.376%{opacity:1}79.417%{opacity:0}100.000%{opacity:0}}
+.k39{animation:k39 24.34s linear infinite}
+@keyframes k40{0.000%{opacity:0}71.495%{opacity:0}71.988%{opacity:1}100.000%{opacity:1}}
+.k40{animation:k40 24.34s linear infinite}
+@keyframes k41{0.000%{transform:translateX(0)}82.046%{transform:translateX(0);animation-timing-function:steps(9,end)}83.821%{transform:translateX(78.3px)}100.000%{transform:translateX(78.3px)}}
+.k41{animation:k41 24.34s linear infinite}
+@keyframes k42{0.000%{opacity:1}84.725%{opacity:1}84.766%{opacity:0}100.000%{opacity:0}}
+.k42{animation:k42 24.34s linear infinite}
+@keyframes k43{0.000%{opacity:0}80.197%{opacity:0}80.690%{opacity:1}100.000%{opacity:1}}
+.k43{animation:k43 24.34s linear infinite}
+@keyframes k44{0.000%{opacity:0}85.546%{opacity:0}86.039%{opacity:1}100.000%{opacity:1}}
+.k44{animation:k44 24.34s linear infinite}
+@keyframes k45{0.000%{opacity:0}87.806%{opacity:0}88.299%{opacity:1}100.000%{opacity:1}}
+.k45{animation:k45 24.34s linear infinite}
+@keyframes k46{0.000%{transform:scaleX(0)}90.682%{transform:scaleX(0);animation-timing-function:cubic-bezier(.2,.8,.2,1)}92.531%{transform:scaleX(1)}100.000%{transform:scaleX(1)}}
+.k46{animation:k46 24.34s linear infinite}
+@keyframes k47{0.000%{transform:scale(0)}90.600%{transform:scale(0);animation-timing-function:cubic-bezier(.3,1.6,.6,1)}91.750%{transform:scale(1)}100.000%{transform:scale(1)}}
+.k47{animation:k47 24.34s linear infinite}
+@keyframes k48{0.000%{opacity:0}90.271%{opacity:0}90.764%{opacity:1}100.000%{opacity:1}}
+.k48{animation:k48 24.34s linear infinite}
+@keyframes k49{0.000%{opacity:1}90.559%{opacity:1}100.000%{opacity:1}}
+.k49{animation:k49 24.34s linear infinite}
+@keyframes k50{0.000%{opacity:0}90.559%{opacity:0}91.052%{opacity:1}100.000%{opacity:1}}
+.k50{animation:k50 24.34s linear infinite}
+@keyframes k51{0.000%{opacity:0}0.000%{opacity:0}1.233%{opacity:1}21.109%{opacity:1}22.342%{opacity:0}100.000%{opacity:0}}
+.k51{animation:k51 24.34s linear infinite}
+@keyframes k52{0.000%{opacity:0}22.342%{opacity:0}23.574%{opacity:1}44.864%{opacity:1}46.097%{opacity:0}100.000%{opacity:0}}
+.k52{animation:k52 24.34s linear infinite}
+@keyframes k53{0.000%{opacity:0}46.097%{opacity:0}47.329%{opacity:1}98.776%{opacity:1}100.000%{opacity:0}100.000%{opacity:0}}
+.k53{animation:k53 24.34s linear infinite}
+@keyframes k54{0.000%{opacity:0}0.000%{opacity:0}0.822%{opacity:1}21.520%{opacity:1}22.342%{opacity:0}100.000%{opacity:0}}
+.k54{animation:k54 24.34s linear infinite}
+@keyframes k55{0.000%{opacity:0}22.342%{opacity:0}23.164%{opacity:1}45.275%{opacity:1}46.097%{opacity:0}100.000%{opacity:0}}
+.k55{animation:k55 24.34s linear infinite}
+@keyframes k56{0.000%{opacity:0}46.097%{opacity:0}46.919%{opacity:1}99.187%{opacity:1}100.000%{opacity:0}100.000%{opacity:0}}
+.k56{animation:k56 24.34s linear infinite}
+@keyframes k57{0.000%{transform:scaleX(0)}0.000%{transform:scaleX(0)}100.000%{transform:scaleX(1)}100.000%{transform:scaleX(1)}}
+.k57{animation:k57 24.34s linear infinite}
+text{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;font-size:14.5px;fill:#d5dae4;white-space:pre;font-variant-ligatures:none}
+.cap{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;font-size:12.5px;fill:#8d96a8;letter-spacing:.01em}
+.path{fill:#7aa2f7}.sigil{fill:#4f5872}.cmd{fill:#7dcfff}.wt{fill:#c4a0ff;font-weight:700}
+.text{fill:#d5dae4}.dim{fill:#7b8496}.red{fill:#ff7a90}.green{fill:#9ece6a}.b{font-weight:700}
+.blink{animation:blink 1.05s steps(1) infinite}@keyframes blink{50%{opacity:0}}
+</style>
+<defs>
+<filter id="shadow" x="-10%" y="-10%" width="120%" height="130%"><feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000" flood-opacity=".35"/></filter>
+<clipPath id="win"><rect width="860" height="375" rx="11"/></clipPath>
+</defs>
+<g transform="translate(20 20)">
+<rect width="860" height="375" rx="11" fill="#0f1117" filter="url(#shadow)"/>
+<g clip-path="url(#win)">
+<rect width="860" height="375" fill="#0f1117"/>
+<rect width="860" height="40" fill="#161922"/>
+<rect y="40" width="860" height="1" fill="#262b36"/>
+<circle cx="22" cy="20" r="6" fill="#ff5f57"/><circle cx="42" cy="20" r="6" fill="#febc2e"/><circle cx="62" cy="20" r="6" fill="#28c840"/>
+<text class="cap k51" x="430" y="24.5" text-anchor="middle">The problem: a branch can be checked out in only one place</text><text class="cap k52" x="430" y="24.5" text-anchor="middle">wt go: land in the worktree that holds the branch</text><text class="cap k53" x="430" y="24.5" text-anchor="middle">wt finish: refuse excluded paths, then rebase onto origin/develop</text>
+<circle cx="796" cy="20" r="3.5" fill="#262b36"/><circle class="k54" cx="796" cy="20" r="3.5" fill="#c4a0ff"/><circle cx="812" cy="20" r="3.5" fill="#262b36"/><circle class="k55" cx="812" cy="20" r="3.5" fill="#c4a0ff"/><circle cx="828" cy="20" r="3.5" fill="#262b36"/><circle class="k56" cx="828" cy="20" r="3.5" fill="#c4a0ff"/>
+<g class="k0"><g class="k3"><text xml:space="preserve" x="46" y="74" textLength="339.3" lengthAdjust="spacing"><tspan class="path">~/code/app</tspan><tspan class="sigil"> $ </tspan><tspan class="cmd">git</tspan><tspan class="text"> checkout feature/login</tspan></text><g transform="translate(159.1 0)"><g class="k1"><rect x="8.7" y="57" width="860" height="23" fill="#0f1117"/><rect class="k2" y="60" width="8.7" height="18" rx="1.5" fill="#c4a0ff"/></g></g></g><g class="k6"><g transform="translate(41 82)"><rect class="k4" width="749.5" height="23" rx="5" fill="rgba(255,122,144,.13)"/></g><text xml:space="preserve" x="46" y="99" textLength="739.5" lengthAdjust="spacing"><tspan class="red b">fatal:</tspan><tspan class="red"> 'feature/login' is already checked out at '~/code/app.worktrees/feature/login'</tspan></text><g transform="translate(24 94.5)"><g class="k5"><circle r="8" fill="#ff7a90" fill-opacity=".16" stroke="#ff7a90" stroke-width="1.2"/><g fill="none" stroke="#ff7a90" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M-2.6 -2.6 L2.6 2.6 M2.6 -2.6 L-2.6 2.6" /></g></g></g></g><g class="k8"><text xml:space="preserve" x="46" y="124" textLength="113.1" lengthAdjust="spacing"><tspan class="path">~/code/app</tspan><tspan class="sigil"> $ </tspan></text><g class="k7"><rect class="blink" x="159.1" y="110" width="8.7" height="18" rx="1.5" fill="#c4a0ff"/></g></g></g>
+<g class="k9"><g class="k12"><text xml:space="preserve" x="46" y="74" textLength="278.4" lengthAdjust="spacing"><tspan class="path">~/code/app</tspan><tspan class="sigil"> $ </tspan><tspan class="wt">wt</tspan><tspan class="text"> go feature/login</tspan></text><g transform="translate(159.1 0)"><g class="k10"><rect x="8.7" y="57" width="860" height="23" fill="#0f1117"/><rect class="k11" y="60" width="8.7" height="18" rx="1.5" fill="#c4a0ff"/></g></g></g><g class="k17"><g transform="translate(41 82)"><rect class="k13" width="305.8" height="23" rx="5" fill="rgba(158,206,106,.14)"/></g><text xml:space="preserve" x="46" y="99" textLength="365.4" lengthAdjust="spacing"><tspan class="path">~/code/app.worktrees/feature/login</tspan><tspan class="sigil"> $ </tspan><tspan class="wt">wt</tspan><tspan class="text"> ls</tspan></text><g transform="translate(367.9 0)"><g class="k14"><rect x="8.7" y="82" width="860" height="23" fill="#0f1117"/><rect class="k15" y="85" width="8.7" height="18" rx="1.5" fill="#c4a0ff"/></g></g><g transform="translate(24 94.5)"><g class="k16"><circle r="8" fill="#9ece6a" fill-opacity=".16" stroke="#9ece6a" stroke-width="1.2"/><g fill="none" stroke="#9ece6a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M-3.4 0.2 L-1 2.6 L3.6 -2.4" /></g></g></g></g><g class="k18"><text xml:space="preserve" x="46" y="124" textLength="382.8" lengthAdjust="spacing"><tspan class="dim">   main                           </tspan><tspan class="dim">~/code/app</tspan></text></g><g class="k20"><g transform="translate(41 132)"><rect class="k19" width="610.3" height="23" rx="5" fill="rgba(196,160,255,.12)"/></g><text xml:space="preserve" x="46" y="149" textLength="591.6" lengthAdjust="spacing"><tspan class="green b">*</tspan><tspan class="text">  feature/login                  </tspan><tspan class="text">~/code/app.worktrees/feature/login</tspan></text></g><g class="k22"><text xml:space="preserve" x="46" y="174" textLength="321.9" lengthAdjust="spacing"><tspan class="path">~/code/app.worktrees/feature/login</tspan><tspan class="sigil"> $ </tspan></text><g class="k21"><rect class="blink" x="367.9" y="160" width="8.7" height="18" rx="1.5" fill="#c4a0ff"/></g></g></g>
+<g class="k23"><g class="k26"><text xml:space="preserve" x="46" y="74" textLength="408.9" lengthAdjust="spacing"><tspan class="path">~/code/app.worktrees/feature/login</tspan><tspan class="sigil"> $ </tspan><tspan class="cmd">git</tspan><tspan class="text"> add -A</tspan></text><g transform="translate(367.9 0)"><g class="k24"><rect x="8.7" y="57" width="860" height="23" fill="#0f1117"/><rect class="k25" y="60" width="8.7" height="18" rx="1.5" fill="#c4a0ff"/></g></g></g><g class="k29"><text xml:space="preserve" x="46" y="99" textLength="400.2" lengthAdjust="spacing"><tspan class="path">~/code/app.worktrees/feature/login</tspan><tspan class="sigil"> $ </tspan><tspan class="wt">wt</tspan><tspan class="text"> finish</tspan></text><g transform="translate(367.9 0)"><g class="k27"><rect x="8.7" y="82" width="860" height="23" fill="#0f1117"/><rect class="k28" y="85" width="8.7" height="18" rx="1.5" fill="#c4a0ff"/></g></g></g><g class="k31"><text xml:space="preserve" x="46" y="124" textLength="435.0" lengthAdjust="spacing"><tspan class="red">wt: refusing to finish: excluded paths are staged:</tspan></text><g transform="translate(24 119.5)"><g class="k30"><circle r="8" fill="#ff7a90" fill-opacity=".16" stroke="#ff7a90" stroke-width="1.2"/><g fill="none" stroke="#ff7a90" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M-2.6 -2.6 L2.6 2.6 M2.6 -2.6 L-2.6 2.6" /></g></g></g></g><g class="k33"><g transform="translate(58.4 132)"><rect class="k32" width="123.1" height="23" rx="5" fill="rgba(255,122,144,.13)"/></g><text xml:space="preserve" x="46" y="149" textLength="130.5" lengthAdjust="spacing"><tspan class="red b">  docs/notes.md</tspan></text></g><g class="k34"><text xml:space="preserve" x="46" y="174" textLength="400.2" lengthAdjust="spacing"><tspan class="dim">unstage them with: git restore --staged &lt;path&gt;</tspan></text></g><g class="k37"><text xml:space="preserve" x="46" y="199" textLength="539.4" lengthAdjust="spacing"><tspan class="path">~/code/app.worktrees/feature/login</tspan><tspan class="sigil"> $ </tspan><tspan class="cmd">git</tspan><tspan class="text"> restore --staged docs</tspan></text><g transform="translate(367.9 0)"><g class="k35"><rect x="8.7" y="182" width="860" height="23" fill="#0f1117"/><rect class="k36" y="185" width="8.7" height="18" rx="1.5" fill="#c4a0ff"/></g></g></g><g class="k40"><text xml:space="preserve" x="46" y="224" textLength="548.1" lengthAdjust="spacing"><tspan class="path">~/code/app.worktrees/feature/login</tspan><tspan class="sigil"> $ </tspan><tspan class="cmd">git</tspan><tspan class="text"> commit -qm "Add login"</tspan></text><g transform="translate(367.9 0)"><g class="k38"><rect x="8.7" y="207" width="860" height="23" fill="#0f1117"/><rect class="k39" y="210" width="8.7" height="18" rx="1.5" fill="#c4a0ff"/></g></g></g><g class="k43"><text xml:space="preserve" x="46" y="249" textLength="400.2" lengthAdjust="spacing"><tspan class="path">~/code/app.worktrees/feature/login</tspan><tspan class="sigil"> $ </tspan><tspan class="wt">wt</tspan><tspan class="text"> finish</tspan></text><g transform="translate(367.9 0)"><g class="k41"><rect x="8.7" y="232" width="860" height="23" fill="#0f1117"/><rect class="k42" y="235" width="8.7" height="18" rx="1.5" fill="#c4a0ff"/></g></g></g><g class="k44"><text xml:space="preserve" x="46" y="274" textLength="165.3" lengthAdjust="spacing"><tspan class="dim">wt: fetching origin</tspan></text></g><g class="k45"><text xml:space="preserve" x="46" y="299" textLength="400.2" lengthAdjust="spacing"><tspan class="dim">wt: rebasing feature/login onto origin/develop</tspan></text></g><g class="k48"><g transform="translate(41 307)"><rect class="k46" width="453.7" height="23" rx="5" fill="rgba(158,206,106,.14)"/></g><text xml:space="preserve" x="46" y="324" textLength="443.7" lengthAdjust="spacing"><tspan class="green">wt: </tspan><tspan class="green b">feature/login is up to date with origin/develop</tspan></text><g transform="translate(24 319.5)"><g class="k47"><circle r="8" fill="#9ece6a" fill-opacity=".16" stroke="#9ece6a" stroke-width="1.2"/><g fill="none" stroke="#9ece6a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M-3.4 0.2 L-1 2.6 L3.6 -2.4" /></g></g></g></g><g class="k50"><text xml:space="preserve" x="46" y="349" textLength="321.9" lengthAdjust="spacing"><tspan class="path">~/code/app.worktrees/feature/login</tspan><tspan class="sigil"> $ </tspan></text><g class="k49"><rect class="blink" x="367.9" y="335" width="8.7" height="18" rx="1.5" fill="#c4a0ff"/></g></g></g>
+<rect class="k57" y="373" width="860" height="2" fill="#c4a0ff" fill-opacity=".55"/>
+</g>
+<rect x=".5" y=".5" width="859" height="374" rx="10.5" fill="none" stroke="#262b36"/>
+</g>
+</svg>
