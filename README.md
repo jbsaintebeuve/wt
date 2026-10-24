@@ -120,7 +120,7 @@ Exclude globs are matched from the repository root, from any subdirectory. They 
 ```sh
 ./test/run.sh            # all tests
 ./test/run.sh finish     # tests whose name matches "finish"
-shellcheck wt test/run.sh install.sh
+shellcheck wt test/run.sh install.sh assets/demo/scenario.sh
 ```
 
 The demo at the top is an animated SVG built from `assets/demo/build.mjs`. Regenerate it with `node assets/demo/build.mjs`. `assets/demo/scenario.sh` replays the same session against the real `wt`, so you can check that the text still matches.
