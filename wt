@@ -1,0 +1,360 @@
+#!/usr/bin/env bash
+# wt - one worktree per branch, and a clean end-of-ticket rebase.
+# https://github.com/jbsaintebeuve/wt - MIT License
+set -euo pipefail
+
+WT_VERSION="0.1.0"
+
+usage() {
+  cat <<'EOF'
+wt - git worktrees without the friction
+
+Usage:
+  wt go <branch> [--from <ref>]   Open the worktree for <branch>, creating it if needed.
+                                  Prints its path (use `wt shell-init` to cd into it).
+  wt ls                           List worktrees (* = current, ! = uncommitted changes).
+  wt path <branch>                Print the path of the worktree holding <branch>.
+  wt rm <branch> [--force] [--delete-branch]
+                                  Remove the worktree for <branch>.
+  wt finish [--base <b>] [--no-fetch] [--push]
+                                  Fetch, refuse if excluded paths are staged or committed,
+                                  then rebase the current branch onto <remote>/<base>.
+  wt config                       Show the effective configuration.
+  wt shell-init                   Print a shell function so `wt go` changes directory.
+  wt help | wt version
+
+Configuration (.wt.conf in the worktree or main checkout, or `git config`):
+  wt.base     base branch for `finish` and new branches   (default: develop)
+  wt.remote   remote to fetch and rebase onto             (default: origin)
+  wt.dir      where new worktrees go, relative to the main checkout
+                                                          (default: ../<repo>.worktrees)
+  wt.exclude  glob that must never be committed; repeatable (e.g. docs/**)
+EOF
+}
+
+die() { printf 'wt: %s\n' "$*" >&2; exit 1; }
+say() { printf '%s\n' "$*" >&2; }
+
+# --- repository context ------------------------------------------------------
+
+repo_init() {
+  git rev-parse --git-dir >/dev/null 2>&1 || die "not inside a git repository"
+  TOP=$(git rev-parse --show-toplevel 2>/dev/null) || die "run wt from inside a working tree"
+  # Git lists the main worktree first, but guesses its path wrong for
+  # --separate-git-dir repos; trust TOP when we are standing in it.
+  if [ "$(git rev-parse --absolute-git-dir)" = "$(cd "$(git rev-parse --git-common-dir)" && pwd -P)" ]; then
+    MAIN=$TOP
+  else
+    MAIN=$(worktree_table | awk -F'\t' 'NR == 1 { print $1 }')
+  fi
+  local file
+  while IFS= read -r file; do
+    [ ! -e "$file" ] || git config -f "$file" --list >/dev/null || die "cannot parse $file"
+  done < <(conf_files)
+}
+
+# Config sources, highest priority first: .wt.conf in the current worktree,
+# .wt.conf in the main checkout (so an uncommitted file covers every worktree),
+# then git config.
+conf_files() {
+  printf '%s\n' "$TOP/.wt.conf"
+  [ "$MAIN" = "$TOP" ] || printf '%s\n' "$MAIN/.wt.conf"
+}
+
+conf() {
+  local key="wt.$1" default=$2 file value
+  while IFS= read -r file; do
+    if value=$(git config -f "$file" --get "$key" 2>/dev/null); then
+      printf '%s\n' "$value"
+      return
+    fi
+  done < <(conf_files)
+  git config --get "$key" || printf '%s\n' "$default"
+}
+
+conf_excludes() {
+  {
+    local file
+    while IFS= read -r file; do
+      git config -f "$file" --get-all wt.exclude 2>/dev/null || true
+    done < <(conf_files)
+    git config --get-all wt.exclude || true
+  } | awk 'NF && !seen[$0]++'
+}
+
+# Turns exclude globs into git pathspecs, one per line.
+exclude_pathspecs() {
+  local pattern
+  while IFS= read -r pattern; do
+    case $pattern in
+      :*) printf '%s\n' "$pattern" ;;
+      *) printf ':(glob)%s\n' "$pattern" ;;
+    esac
+  done < <(conf_excludes)
+}
+
+conf_remote() {
+  local remote
+  remote=$(conf remote origin)
+  case $remote in -*|"") die "invalid wt.remote: '$remote'" ;; esac
+  printf '%s\n' "$remote"
+}
+
+worktrees_dir() {
+  local dir
+  dir=$(conf dir "../$(basename "$MAIN").worktrees")
+  case $dir in
+    /*) printf '%s\n' "$dir" ;;
+    *) printf '%s\n' "$MAIN/$dir" ;;
+  esac
+}
+
+# Emits "<path>\t<branch>" for every worktree; branch is empty when detached.
+worktree_table() {
+  git worktree prune
+  git worktree list --porcelain -z | tr '\0' '\n' | awk '
+    /^worktree / { if (path != "") print path "\t" branch; path = substr($0, 10); branch = "" }
+    /^branch /   { branch = substr($0, 8); sub(/^refs\/heads\//, "", branch) }
+    END          { if (path != "") print path "\t" branch }
+  '
+}
+
+worktree_for() {
+  worktree_table | awk -F'\t' -v b="$1" '!found && $2 == b { print $1; found = 1 }'
+}
+
+ref_exists() { git show-ref --verify --quiet "$1"; }
+
+is_dirty() { [ -n "$(git -C "$1" status --porcelain 2>/dev/null)" ]; }
+
+# --- commands ----------------------------------------------------------------
+
+cmd_go() {
+  local branch="" from=""
+  while [ $# -gt 0 ]; do
+    case $1 in
+      --from) [ $# -ge 2 ] || die "--from needs a ref"; from=$2; shift 2 ;;
+      -*) die "unknown option for go: $1" ;;
+      *) [ -z "$branch" ] || die "go takes a single branch"; branch=$1; shift ;;
+    esac
+  done
+  [ -n "$branch" ] || die "usage: wt go <branch> [--from <ref>]"
+  git check-ref-format --branch "$branch" >/dev/null 2>&1 || die "invalid branch name: $branch"
+  repo_init
+
+  local existing
+  existing=$(worktree_for "$branch")
+  if [ -n "$existing" ]; then
+    printf '%s\n' "$existing"
+    return
+  fi
+
+  # Directories mirror branch names: Git already forbids both a/b and a/b/c.
+  local remote dir path
+  remote=$(conf_remote)
+  dir=$(worktrees_dir)
+  mkdir -p "$dir"
+  path="$(cd "$dir" && pwd -P)/$branch"
+  [ ! -e "$path" ] || die "$path already exists but is not a worktree for $branch"
+
+  if ref_exists "refs/heads/$branch"; then
+    git worktree add --quiet "$path" "$branch" >&2
+  else
+    git fetch --quiet "$remote" >&2 2>/dev/null || say "wt: could not fetch $remote, using local refs"
+    if ref_exists "refs/remotes/$remote/$branch"; then
+      git worktree add --quiet --track -b "$branch" "$path" "$remote/$branch" >&2
+    else
+      if [ -z "$from" ]; then
+        local base
+        base=$(conf base develop)
+        if ref_exists "refs/remotes/$remote/$base"; then
+          from="$remote/$base"
+        elif ref_exists "refs/heads/$base"; then
+          from=$base
+        else
+          die "base '$base' not found; pass --from <ref> or set wt.base"
+        fi
+      fi
+      git worktree add --quiet --no-track -b "$branch" "$path" "$from" >&2
+      say "wt: created branch $branch from $from"
+    fi
+  fi
+  printf '%s\n' "$path"
+}
+
+cmd_path() {
+  [ $# -eq 1 ] || die "usage: wt path <branch>"
+  repo_init
+  local path
+  path=$(worktree_for "$1")
+  [ -n "$path" ] || die "no worktree for branch $1"
+  printf '%s\n' "$path"
+}
+
+cmd_ls() {
+  [ $# -eq 0 ] || die "usage: wt ls"
+  repo_init
+  local path branch mark dirty
+  while IFS=$'\t' read -r path branch; do
+    mark=" "; dirty=" "
+    [ "$path" = "$TOP" ] && mark="*"
+    is_dirty "$path" && dirty="!"
+    printf '%s%s %-30s %s\n' "$mark" "$dirty" "${branch:-(detached)}" "$path"
+  done < <(worktree_table)
+}
+
+cmd_rm() {
+  local branch="" force=0 delete_branch=0
+  while [ $# -gt 0 ]; do
+    case $1 in
+      -f|--force) force=1; shift ;;
+      -d|--delete-branch) delete_branch=1; shift ;;
+      -*) die "unknown option for rm: $1" ;;
+      *) [ -z "$branch" ] || die "rm takes a single branch"; branch=$1; shift ;;
+    esac
+  done
+  [ -n "$branch" ] || die "usage: wt rm <branch> [--force] [--delete-branch]"
+  repo_init
+
+  local path here
+  path=$(worktree_for "$branch")
+  [ -n "$path" ] || die "no worktree for branch $branch"
+  [ "$path" != "$MAIN" ] || die "$branch is checked out in the main worktree; it cannot be removed"
+  here=$(pwd -P)
+  case "$here/" in
+    "$path"/*) die "you are inside $path; cd elsewhere first" ;;
+  esac
+  if [ $force -eq 0 ] && is_dirty "$path"; then
+    die "$path has uncommitted changes; commit them or use --force"
+  fi
+
+  if [ $force -eq 1 ]; then
+    git worktree remove --force "$path"
+  else
+    git worktree remove "$path"
+  fi
+  say "wt: removed $path"
+  if [ $delete_branch -eq 1 ]; then
+    if [ $force -eq 1 ]; then git branch -D "$branch" >&2; else git branch -d "$branch" >&2; fi
+  fi
+}
+
+cmd_finish() {
+  local base="" fetch=1 push=0
+  while [ $# -gt 0 ]; do
+    case $1 in
+      --base) [ $# -ge 2 ] || die "--base needs a branch"; base=$2; shift 2 ;;
+      --no-fetch) fetch=0; shift ;;
+      --push) push=1; shift ;;
+      *) die "unknown option for finish: $1" ;;
+    esac
+  done
+  repo_init
+  [ -n "$base" ] || base=$(conf base develop)
+  local remote branch upstream
+  remote=$(conf_remote)
+  branch=$(git symbolic-ref --quiet --short HEAD) || die "HEAD is detached; check out a branch first"
+  [ "$branch" != "$base" ] || die "you are on the base branch $base"
+
+  local specs=()
+  local spec
+  while IFS= read -r spec; do specs+=("$spec"); done < <(exclude_pathspecs)
+
+  if [ ${#specs[@]} -gt 0 ]; then
+    local staged
+    staged=$(git -C "$TOP" diff --cached --name-only -- "${specs[@]}")
+    if [ -n "$staged" ]; then
+      say "wt: refusing to finish: excluded paths are staged:"
+      printf '%s\n' "$staged" | sed 's/^/  /' >&2
+      say "unstage them with: git restore --staged <path>"
+      exit 1
+    fi
+  fi
+
+  if [ $fetch -eq 1 ]; then
+    say "wt: fetching $remote"
+    git fetch --quiet "$remote" >&2
+  fi
+  upstream="$remote/$base"
+  ref_exists "refs/remotes/$upstream" || die "$upstream not found; check wt.base and wt.remote"
+
+  if [ ${#specs[@]} -gt 0 ]; then
+    local committed
+    committed=$(git -C "$TOP" log --full-history --format= --name-only "$upstream..HEAD" -- "${specs[@]}" | awk 'NF && !seen[$0]++')
+    if [ -n "$committed" ]; then
+      say "wt: refusing to finish: commits on $branch change excluded paths:"
+      printf '%s\n' "$committed" | sed 's/^/  /' >&2
+      say "drop those changes from your commits, then run wt finish again"
+      exit 1
+    fi
+  fi
+
+  # The lease pins the remote tip we checked, so a push made after this
+  # fetch is never overwritten.
+  local remote_tip=""
+  if [ $push -eq 1 ] && ref_exists "refs/remotes/$remote/$branch"; then
+    remote_tip=$(git rev-parse "refs/remotes/$remote/$branch")
+    if [ -n "$(git rev-list --cherry-pick --right-only "HEAD...$remote_tip")" ]; then
+      die "$remote/$branch has commits that $branch lacks; integrate them first (git pull --rebase)"
+    fi
+  fi
+
+  say "wt: rebasing $branch onto $upstream"
+  if ! git rebase --quiet --autostash "$upstream" >&2; then
+    say "wt: rebase stopped on a conflict; resolve it, then git rebase --continue"
+    exit 1
+  fi
+  if [ -n "$(git ls-files --unmerged)" ]; then
+    die "rebase done, but your uncommitted changes conflict with it; resolve them (they are also kept in git stash list)"
+  fi
+  if [ $push -eq 1 ]; then
+    say "wt: pushing $branch"
+    git push --quiet --force-with-lease="refs/heads/$branch:$remote_tip" -u "$remote" "HEAD:refs/heads/$branch" >&2
+  fi
+  say "wt: $branch is up to date with $upstream"
+}
+
+cmd_config() {
+  [ $# -eq 0 ] || die "usage: wt config"
+  repo_init
+  printf 'base     %s\n' "$(conf base develop)"
+  printf 'remote   %s\n' "$(conf remote origin)"
+  printf 'dir      %s\n' "$(worktrees_dir)"
+  local pattern
+  while IFS= read -r pattern; do
+    printf 'exclude  %s\n' "$pattern"
+  done < <(conf_excludes)
+}
+
+cmd_shell_init() {
+  cat <<'EOF'
+wt() {
+  if [ "${1:-}" = go ]; then
+    shift
+    local dir
+    dir=$(command wt go "$@") && cd "$dir"
+  else
+    command wt "$@"
+  fi
+}
+EOF
+}
+
+main() {
+  local cmd=${1:-help}
+  [ $# -eq 0 ] || shift
+  case $cmd in
+    go|switch) cmd_go "$@" ;;
+    path) cmd_path "$@" ;;
+    ls|list) cmd_ls "$@" ;;
+    rm|remove) cmd_rm "$@" ;;
+    finish) cmd_finish "$@" ;;
+    config) cmd_config "$@" ;;
+    shell-init) cmd_shell_init ;;
+    help|-h|--help) usage ;;
+    version|-v|--version) printf 'wt %s\n' "$WT_VERSION" ;;
+    *) usage >&2; exit 2 ;;
+  esac
+}
+
+main "$@"
